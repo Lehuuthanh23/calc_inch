@@ -16,7 +16,7 @@ jobs:
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.24.0'
+          flutter-version: '3.24.3'  # Thử bản mới hơn, hoặc bỏ để dùng latest stable
           channel: 'stable'
 
       - name: Check Flutter and Dart version
@@ -26,7 +26,7 @@ jobs:
         run: flutter pub get
 
       - name: Analyze project source
-        run: flutter analyze --no-fatal-infos  # Bỏ qua info warnings
+        run: flutter analyze --no-fatal-infos
 
       - name: Run tests
         run: flutter test

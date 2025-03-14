@@ -1,0 +1,58 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: Flutter iOS Build
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: macos-latest  # macOS là bắt buộc để build IPA
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # Cài đặt Flutter SDK
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.19.0'  # Thay bằng phiên bản Flutter bạn muốn
+          channel: 'stable'
+
+      # Cài đặt dependencies
+      - name: Install dependencies
+        run: flutter pub get
+
+      # Kiểm tra định dạng code (tùy chọn)
+      # - name: Verify formatting
+      #   run: flutter format --set-exit-if-changed .
+
+      # Phân tích code
+      - name: Analyze project source
+        run: flutter analyze
+
+      # Chạy test (nếu có)
+      - name: Run tests
+        run: flutter test
+
+      # Build IPA
+      - name: Build IPA
+        run: |
+          flutter build ios --release --no-codesign
+          cd build/ios/iphoneos
+          mkdir Payload
+          mv Runner.app Payload/
+          zip -r app.ipa Payload
+
+      # Lưu file IPA làm artifact (tùy chọn)
+      - name: Upload IPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-ipa
+          path: build/ios/iphoneos/app.ipa

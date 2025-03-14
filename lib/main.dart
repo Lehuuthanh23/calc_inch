@@ -6,6 +6,7 @@ void main() {
 }
 
 class ScreenSizeCalculator extends StatelessWidget {
+  const ScreenSizeCalculator({super.key});
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -16,11 +17,12 @@ class ScreenSizeCalculator extends StatelessWidget {
 }
 
 class ScreenCalculatorPage extends StatefulWidget {
+  const ScreenCalculatorPage({super.key});
   @override
-  _ScreenCalculatorPageState createState() => _ScreenCalculatorPageState();
+  ScreenCalculatorPageState createState() => ScreenCalculatorPageState();
 }
 
-class _ScreenCalculatorPageState extends State<ScreenCalculatorPage> {
+class ScreenCalculatorPageState extends State<ScreenCalculatorPage> {
   final TextEditingController _lengthController = TextEditingController();
   String _selectedRatio = '16:9';
   String _selectedUnit = 'inch';

@@ -2,14 +2,16 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 
 void main() {
-  runApp(ScreenSizeCalculator());
+  runApp(const ScreenSizeCalculator()); // Thêm const
 }
 
 class ScreenSizeCalculator extends StatelessWidget {
   const ScreenSizeCalculator({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
+      // Thêm const
       debugShowCheckedModeBanner: false,
       home: ScreenCalculatorPage(),
     );
@@ -18,6 +20,7 @@ class ScreenSizeCalculator extends StatelessWidget {
 
 class ScreenCalculatorPage extends StatefulWidget {
   const ScreenCalculatorPage({super.key});
+
   @override
   ScreenCalculatorPageState createState() => ScreenCalculatorPageState();
 }
@@ -54,17 +57,18 @@ class ScreenCalculatorPageState extends State<ScreenCalculatorPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Screen Size Calculator')),
+      appBar: AppBar(title: const Text('Máy tính màn chiếu')), // Thêm const
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0), // Đã có const từ trước
         child: Column(
           children: [
             TextField(
               controller: _lengthController,
               keyboardType: TextInputType.number,
-              decoration: InputDecoration(labelText: 'Enter screen width'),
+              decoration: const InputDecoration(
+                  labelText: 'Nhập chiều ngang: '), // Thêm const
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10), // Thêm const
             DropdownButton<String>(
               value: _selectedUnit,
               items: ['inch', 'mm'].map((String value) {
@@ -79,7 +83,7 @@ class ScreenCalculatorPageState extends State<ScreenCalculatorPage> {
                 });
               },
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10), // Thêm const
             DropdownButton<String>(
               value: _selectedRatio,
               items: ['16:9', '4:3'].map((String value) {
@@ -94,14 +98,17 @@ class ScreenCalculatorPageState extends State<ScreenCalculatorPage> {
                 });
               },
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20), // Thêm const
             ElevatedButton(
               onPressed: _calculateSize,
-              child: Text('Calculate'),
+              child: const Text('Tính'), // Thêm const
             ),
-            SizedBox(height: 20),
-            Text('Height: ${_height.toStringAsFixed(2)} $_selectedUnit'),
-            Text('Diagonal: ${_diagonalInInches.toStringAsFixed(2)} inch'),
+            const SizedBox(height: 20), // Thêm const
+            Text('Chiều cao: ${_height.toStringAsFixed(2)} $_selectedUnit'),
+            Text('Đường chéo: ${_diagonalInInches.toStringAsFixed(2)} inch'),
+            if (_lengthController.text.isNotEmpty)
+              Text(
+                  'Khoảng cách:  ${((int.parse(_lengthController.text.toString()) * 1.34) / 1000).toStringAsFixed(2)} - ${((int.parse(_lengthController.text.toString()) * 2.22) / 1000).toStringAsFixed(2)} m'),
           ],
         ),
       ),
